@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cars>
+    <car>
+        <type>Car</type>
+        <name>Octavia</name>
+        <manufacturer>Skoda</manufacturer>
+        <power>85</power>
+        <price>20000.0</price>
+    </car>
+    <car>
+        <type>Truck</type>
+        <name>Actros</name>
+        <manufacturer>Mercedes-Benz</manufacturer>
+        <power>250</power>
+        <price>50000.0</price>
+    </car>
+    <car>
+        <type>Motorcycle</type>
+        <name>CBR600RR</name>
+        <manufacturer>Honda</manufacturer>
+        <power>85</power>
+        <price>15000.0</price>
+    </car>
+    <car>
+        <type>Car</type>
+        <name>Model S</name>
+        <manufacturer>Tesla</manufacturer>
+        <power>100</power>
+        <price>75000.0</price>
+    </car>
+    <car>
+        <type>Motorcycle</type>
+        <name>Ninja ZX-10R</name>
+        <manufacturer>Kawasaki</manufacturer>
+        <power>200</power>
+        <price>16000.0</price>
+    </car>
+</cars>
