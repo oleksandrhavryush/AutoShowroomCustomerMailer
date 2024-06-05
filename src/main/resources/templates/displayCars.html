@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Display Cars</title>
+</head>
+<body>
+<h1>Display Cars</h1>
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Manufacturer</th>
+        <th>Power</th>
+        <th>Price</th>
+    </tr>
+    <tr th:each="car : ${carList.cars}">
+        <td th:text="${car.type}"></td>
+        <td th:text="${car.name}"></td>
+        <td th:text="${car.manufacturer}"></td>
+        <td th:text="${car.power}"></td>
+        <td th:text="${car.price}"></td>
+    </tr>
+</table>
+<form method="POST" action="/save">
+    <input type="submit" value="Save to DB" />
+</form>
+</body>
+</html>
