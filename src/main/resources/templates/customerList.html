@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-    <title>Display Cars</title>
+    <title>Display customers</title>
     <link rel="stylesheet" type="text/css" href="/styles.css">
     <style>
         .form-container {
@@ -57,26 +57,27 @@
 </head>
 <body>
 <div class="form-container">
-    <h1>Display Cars</h1>
+    <h1>Display customers</h1>
     <table>
         <tr>
-            <th>Type</th>
-            <th>Name</th>
-            <th>Manufacturer</th>
-            <th>Power</th>
-            <th>Price</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Street</th>
+            <th>House number</th>
+            <th>City</th>
+            <th>Postal code</th>
+            <th>Country</th>
         </tr>
-        <tr th:each="car : ${carList.cars}">
-            <td th:text="${car.type}"></td>
-            <td th:text="${car.name}"></td>
-            <td th:text="${car.manufacturer}"></td>
-            <td th:text="${car.power}"></td>
-            <td th:text="${car.price}"></td>
+        <tr th:each="customer : ${customerList}">
+            <td th:text="${customer.getFirstName()}"></td>
+            <td th:text="${customer.getLastName()}"></td>
+            <td th:text="${customer.address.getStreet()}"></td>
+            <td th:text="${customer.address.getHouseNumber()}"></td>
+            <td th:text="${customer.address.getCity()}"></td>
+            <td th:text="${customer.address.getPostalCode()}"></td>
+            <td th:text="${customer.address.getCountry()}"></td>
         </tr>
     </table>
-    <form method="POST" action="/save">
-        <input type="submit" value="Save to DB" />
-    </form>
     <a href="/">Back to Home</a>
 </div>
 </body>

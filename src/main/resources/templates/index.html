@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+    <link rel="stylesheet" type="text/css" href="/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        header {
+            background: #50a8a0;
+            color: white;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: #e8491d 3px solid;
+        }
+        header a {
+            color: #ffffff;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+        header li {
+            float: left;
+            display: inline;
+            padding: 0 20px 0 20px;
+        }
+        header #branding {
+            float: left;
+        }
+        header #branding h1 {
+            margin: 0;
+        }
+        header nav {
+            float: right;
+            margin-top: 10px;
+        }
+        header .highlight, header .current a {
+            color: #e8491d;
+            font-weight: bold;
+        }
+        header a:hover {
+            color: #cccccc;
+            font-weight: bold;
+        }
+        .welcome-message {
+            width: 60%;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .welcome-message h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .welcome-message p {
+            color: #333;
+            text-align: center;
+            font-size: 14px;
+        }
+
+
+    </style>
+</head>
+<body>
+<header>
+    <div class="container">
+        <div id="branding">
+            <h1><span class="highlight">Car</span> Dealership</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/cars">Upload Car Data</a></li>
+                <li><a href="/customer">Create New Customer</a></li>
+                <li><a href="/customerList">Show all Customers</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+<div class="welcome-message">
+    <h2>Ласкаво просимо до нашого автосалону!</h2>
+    <p>Ми раді вітати вас на нашому веб-сайті. Тут ви можете завантажити дані про автомобілі або створити нового клієнта.</p>
+</div>
+</body>
+</html>
