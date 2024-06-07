@@ -19,7 +19,7 @@ public class CarController {
     private final CarDbService carDbService;
     private final CarParserService parser;
 
-    @GetMapping("/")
+    @GetMapping("/cars")
     public String index() {
         return "upload";
     }

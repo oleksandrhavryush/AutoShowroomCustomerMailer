@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Customer Details</title>
+    <link rel="stylesheet" type="text/css" href="/styles.css">
+    <style>
+        .form-container {
+            width: 70%;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .form-container h1 {
+            text-align: center;
+            color: #333;
+        }
+        .form-container table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .form-container table, th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .form-container th {
+            background-color: #50a8a0;
+            color: white;
+        }
+        .form-container .form-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .form-container .form-buttons form {
+            flex: 1;
+            margin-right: 20px;
+        }
+        .form-container .form-buttons form:last-child {
+            margin-right: 0;
+        }
+        .form-container .form-buttons form input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #50a8a0;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .form-container .form-buttons form input[type="submit"]:hover {
+            background-color: #408080;
+        }
+        .form-container a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+<div class="form-container">
+    <h1>Customer Details</h1>
+    <table>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Street</th>
+            <th>House number</th>
+            <th>City</th>
+            <th>Postal code</th>
+            <th>Country</th>
+        </tr>
+        <tr>
+            <td th:text="${customer.getFirstName()}"></td>
+            <td th:text="${customer.getLastName()}"></td>
+            <td th:text="${customer.address.getStreet()}"></td>
+            <td th:text="${customer.address.getHouseNumber()}"></td>
+            <td th:text="${customer.address.getCity()}"></td>
+            <td th:text="${customer.address.getPostalCode()}"></td>
+            <td th:text="${customer.address.getCountry()}"></td>
+        </tr>
+    </table>
+    <!-- Edit and Delete buttons -->
+    <div class="form-buttons">
+        <form method="GET" th:action="@{/customer/edit/{id}(id=${customer.id})}">
+            <input type="submit" value="Edit Customer" />
+        </form>
+        <form method="POST" th:action="@{/customer/delete/{id}(id=${customer.id})}">
+            <input type="submit" value="Delete Customer" />
+        </form>
+    </div>
+    <a href="/">Back to Home</a>
+</div>
+</body>
+</html>

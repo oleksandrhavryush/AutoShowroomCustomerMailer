@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Customer</title>
+    <link rel="stylesheet" type="text/css" href="/styles.css">
+    <style>
+        .form-container {
+            width: 50%;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .form-container h1 {
+            text-align: center;
+            color: #333;
+        }
+        .form-container form {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-container form div {
+            margin-bottom: 10px;
+        }
+        .form-container form label {
+            display: block;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .form-container form input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .form-container form input[type="submit"] {
+            padding: 10px;
+            background-color: #50a8a0;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .form-container form input[type="submit"]:hover {
+            background-color: #408080;
+        }
+        .form-container a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+<div class="form-container">
+    <h1>Edit Customer</h1>
+    <form method="POST" th:action="@{/customer/edit/{id}(id=${customer.id})}" th:object="${customer}">
+        <div>
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" th:field="*{firstName}" />
+        </div>
+        <div>
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" th:field="*{lastName}" />
+        </div>
+        <div>
+            <label for="street">Street:</label>
+            <input type="text" id="street" th:field="*{address.street}" />
+        </div>
+        <div>
+            <label for="houseNumber">House Number:</label>
+            <input type="text" id="houseNumber" th:field="*{address.houseNumber}" />
+        </div>
+        <div>
+            <label for="city">City:</label>
+            <input type="text" id="city" th:field="*{address.city}" />
+        </div>
+        <div>
+            <label for="postalCode">Postal Code:</label>
+            <input type="text" id="postalCode" th:field="*{address.postalCode}" />
+        </div>
+        <div>
+            <label for="country">Country:</label>
+            <input type="text" id="country" th:field="*{address.country}" />
+        </div>
+        <div>
+            <input type="submit" value="Update Customer" />
+        </div>
+    </form>
+    <a href="/">Back to Home</a>
+</div>
+</body>
+</html>

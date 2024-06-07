@@ -9,5 +9,4 @@ public class AutoShowroomCustomerMailerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AutoShowroomCustomerMailerApplication.class, args);
 	}
-
 }
