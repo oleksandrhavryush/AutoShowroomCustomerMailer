@@ -23,24 +23,32 @@ public class PdfController {
 
     @GetMapping(value = "/generatePdf")
     public String generatePdfForAllCustomers(RedirectAttributes redirectAttributes) {
+        LOGGER.info("Initiating PDF generation for all customers.");
         List<Customer> customers = customerService.findAll();
         List<String> errorMessages = new ArrayList<>();
 
-        customers.forEach(customer -> generatePdfAndHandleErrors(customer, errorMessages));
+        customers.forEach(customer -> {
+            LOGGER.debug("Generating PDF for customer: {}", customer);
+            if (!generatePdfAndHandleErrors(customer, errorMessages)) {
+                LOGGER.warn("Failed to generate PDF for customer: {}", customer);
+            }
+        });
 
         if (!errorMessages.isEmpty()) {
+            LOGGER.error("Errors occurred during PDF generation: {}", String.join(", ", errorMessages));
             String combinedErrorMessage = String.join("\n", errorMessages);
             redirectAttributes.addFlashAttribute("message", combinedErrorMessage);
         } else {
             redirectAttributes.addFlashAttribute("message", "PDF files saved to directory src/main/resources/generated_mails successfully for all customers.");
+            LOGGER.info("PDF generation completed successfully for all customers.");
         }
         return "redirect:/uploadStatus";
     }
 
-
     private boolean generatePdfAndHandleErrors(Customer customer, List<String> errorMessages) {
         try {
             pdfGenerationService.createPdfForCustomer(customer.getId());
+            LOGGER.info("PDF generated successfully for customer: {}", customer);
             return true;
         } catch (Exception e) {
             String errorMessage = String.format("Error generating PDF for customer %s %s: %s",
@@ -50,5 +58,4 @@ public class PdfController {
             return false;
         }
     }
-
 }

@@ -58,7 +58,13 @@
 <body>
 <div class="form-container">
     <h1>Edit Customer</h1>
-    <form method="POST" th:action="@{/customer/edit/{id}(id=${customer.id})}" th:object="${customer}">
+    <form method="POST" th:action="@{/customer/edit/{id}(id=${customer.id})}" th:object="${payload}">
+        <div data-th-if="${errors}">
+            <h2>Errors</h2>
+            <ul>
+                <li data-th-each="error: ${errors}" data-th-text="${error}"></li>
+            </ul>
+        </div>
         <div>
             <label for="firstName">First Name:</label>
             <input type="text" id="firstName" th:field="*{firstName}" />
@@ -69,23 +75,23 @@
         </div>
         <div>
             <label for="street">Street:</label>
-            <input type="text" id="street" th:field="*{address.street}" />
+            <input type="text" id="street" th:field="*{street}" />
         </div>
         <div>
             <label for="houseNumber">House Number:</label>
-            <input type="text" id="houseNumber" th:field="*{address.houseNumber}" />
+            <input type="text" id="houseNumber" th:field="*{houseNumber}" />
         </div>
         <div>
             <label for="city">City:</label>
-            <input type="text" id="city" th:field="*{address.city}" />
+            <input type="text" id="city" th:field="*{city}" />
         </div>
         <div>
             <label for="postalCode">Postal Code:</label>
-            <input type="text" id="postalCode" th:field="*{address.postalCode}" />
+            <input type="text" id="postalCode" th:field="*{postalCode}" />
         </div>
         <div>
             <label for="country">Country:</label>
-            <input type="text" id="country" th:field="*{address.country}" />
+            <input type="text" id="country" th:field="*{country}" />
         </div>
         <div>
             <input type="submit" value="Update Customer" />
