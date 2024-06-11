@@ -1,0 +1,43 @@
+-- Address entries
+INSERT INTO address (street, house_number, city, postal_code, country) VALUES ('Bahnhofstraße', '1', 'Berlin', '10115', 'Germany');
+INSERT INTO address (street, house_number, city, postal_code, country) VALUES ('Hauptstraße', '10', 'Munich', '80331', 'Germany');
+INSERT INTO address (street, house_number, city, postal_code, country) VALUES ('Goethestraße', '15', 'Frankfurt', '60313', 'Germany');
+INSERT INTO address (street, house_number, city, postal_code, country) VALUES ('Schillerstraße', '20', 'Stuttgart', '70173', 'Germany');
+INSERT INTO address (street, house_number, city, postal_code, country) VALUES ('Rathausplatz', '5', 'Hamburg', '20095', 'Germany');
+INSERT INTO address (street, house_number, city, postal_code, country) VALUES ('Königstraße', '7', 'Dresden', '01097', 'Germany');
+INSERT INTO address (street, house_number, city, postal_code, country) VALUES ('Münsterstraße', '30', 'Dortmund', '44145', 'Germany');
+INSERT INTO address (street, house_number, city, postal_code, country) VALUES ('Leipziger Straße', '12', 'Leipzig', '04109', 'Germany');
+INSERT INTO address (street, house_number, city, postal_code, country) VALUES ('Kaiserstraße', '3', 'Karlsruhe', '76133', 'Germany');
+INSERT INTO address (street, house_number, city, postal_code, country) VALUES ('Ludwigstraße', '8', 'Cologne', '50667', 'Germany');
+INSERT INTO address (street, house_number, city, postal_code, country) VALUES ('Marktplatz', '25', 'Nuremberg', '90403', 'Germany');
+INSERT INTO address (street, house_number, city, postal_code, country) VALUES ('Friedrichstraße', '11', 'Bremen', '28195', 'Germany');
+INSERT INTO address (street, house_number, city, postal_code, country) VALUES ('Auguststraße', '14', 'Hannover', '30159', 'Germany');
+INSERT INTO address (street, house_number, city, postal_code, country) VALUES ('Brückenstraße', '22', 'Düsseldorf', '40213', 'Germany');
+INSERT INTO address (street, house_number, city, postal_code, country) VALUES ('Neuer Wall', '17', 'Hamburg', '20354', 'Germany');
+INSERT INTO address (street, house_number, city, postal_code, country) VALUES ('Holstenstraße', '9', 'Kiel', '24103', 'Germany');
+INSERT INTO address (street, house_number, city, postal_code, country) VALUES ('Am Wall', '6', 'Bremen', '28195', 'Germany');
+INSERT INTO address (street, house_number, city, postal_code, country) VALUES ('Elisabethstraße', '19', 'Aachen', '52062', 'Germany');
+INSERT INTO address (street, house_number, city, postal_code, country) VALUES ('Steinstraße', '28', 'Magdeburg', '39104', 'Germany');
+INSERT INTO address (street, house_number, city, postal_code, country) VALUES ('Schönhauser Allee', '31', 'Berlin', '10435', 'Germany');
+
+-- Customer entries
+INSERT INTO customer (first_name, last_name, address_id) VALUES ('Max', 'Mustermann', 1);
+INSERT INTO customer (first_name, last_name, address_id) VALUES ('Erika', 'Musterfrau', 2);
+INSERT INTO customer (first_name, last_name, address_id) VALUES ('Hans', 'Schneider', 3);
+INSERT INTO customer (first_name, last_name, address_id) VALUES ('Anna', 'Bauer', 4);
+INSERT INTO customer (first_name, last_name, address_id) VALUES ('Peter', 'Fischer', 5);
+INSERT INTO customer (first_name, last_name, address_id) VALUES ('Klara', 'Weber', 6);
+INSERT INTO customer (first_name, last_name, address_id) VALUES ('Michael', 'Wagner', 7);
+INSERT INTO customer (first_name, last_name, address_id) VALUES ('Sophia', 'Becker', 8);
+INSERT INTO customer (first_name, last_name, address_id) VALUES ('Thomas', 'Hoffmann', 9);
+INSERT INTO customer (first_name, last_name, address_id) VALUES ('Laura', 'Schäfer', 10);
+INSERT INTO customer (first_name, last_name, address_id) VALUES ('Stefan', 'Meyer', 11);
+INSERT INTO customer (first_name, last_name, address_id) VALUES ('Julia', 'Koch', 12);
+INSERT INTO customer (first_name, last_name, address_id) VALUES ('Daniel', 'Richter', 13);
+INSERT INTO customer (first_name, last_name, address_id) VALUES ('Martina', 'Klein', 14);
+INSERT INTO customer (first_name, last_name, address_id) VALUES ('Jan', 'Wolf', 15);
+INSERT INTO customer (first_name, last_name, address_id) VALUES ('Lena', 'Schulz', 16);
+INSERT INTO customer (first_name, last_name, address_id) VALUES ('Lucas', 'Krüger', 17);
+INSERT INTO customer (first_name, last_name, address_id) VALUES ('Sarah', 'Neumann', 18);
+INSERT INTO customer (first_name, last_name, address_id) VALUES ('Markus', 'Hartmann', 19);
+INSERT INTO customer (first_name, last_name, address_id) VALUES ('Emily', 'Schmidt', 20);
