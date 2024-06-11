@@ -1,9 +1,10 @@
 package oleksandr_havriush.autoshowroomcustomermailer.service;
 
 import lombok.RequiredArgsConstructor;
-import oleksandr_havriush.autoshowroomcustomermailer.model.Address;
 import oleksandr_havriush.autoshowroomcustomermailer.model.Customer;
 import oleksandr_havriush.autoshowroomcustomermailer.repository.CustomerRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,27 +14,32 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class CustomerService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomerService.class);
     private final CustomerRepository customerRepository;
 
     public List<Customer> findAll() {
-        return this.customerRepository.findAll();
+        return customerRepository.findAll();
     }
 
     public Optional<Customer> findById(Long id) {
-        return this.customerRepository.findById(id);
+        return customerRepository.findById(id);
     }
 
     @Transactional
-    public Customer create(String firstName, String lastName, Address address) {
-        return this.customerRepository.save(new Customer(null, firstName, lastName, address));
+    public Customer create(Customer customer) {
+        LOGGER.info("Creating new customer: {}", customer);
+        return customerRepository.save(customer);
     }
 
     @Transactional
-    public Customer update(Long id, Customer customer) {
-        return this.customerRepository.save(customer);
+    public Customer update(Customer customer) {
+        LOGGER.info("Updating customer: {}", customer);
+        return customerRepository.save(customer);
     }
 
     public void deleteById(Long id) {
-        this.customerRepository.deleteById(id);
+        LOGGER.info("Deleting customer with ID: {}", id);
+        customerRepository.deleteById(id);
     }
 }
+
