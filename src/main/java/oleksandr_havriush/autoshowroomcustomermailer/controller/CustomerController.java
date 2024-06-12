@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -122,7 +123,6 @@ public class CustomerController {
         }
     }
 
-
     @PostMapping("/customer/delete/{id}")
     public String deleteCustomer(@PathVariable("id") Long id) {
         customerService.deleteById(id);
@@ -137,5 +137,12 @@ public class CustomerController {
         model.addAttribute("error",
                 messageSource.getMessage(exception.getMessage(), null, exception.getMessage(), locale));
         return "errors/404";
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleRuntimeException(RuntimeException ex) {
+        // Log the exception, return an appropriate error message and HTTP status
+        LOGGER.error("An unexpected error occurred", ex);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected server error occurred");
     }
 }
