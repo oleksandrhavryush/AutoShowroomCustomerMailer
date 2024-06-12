@@ -1,5 +1,6 @@
 package oleksandr_havriush.autoshowroomcustomermailer.util;
 
+import oleksandr_havriush.autoshowroomcustomermailer.exeptions.PdfGenerationException;
 import oleksandr_havriush.autoshowroomcustomermailer.model.Car;
 import oleksandr_havriush.autoshowroomcustomermailer.model.Customer;
 import com.itextpdf.text.*;
@@ -36,6 +37,7 @@ public class PdfReportGenerator {
             document.close();
         } catch (DocumentException | IOException ex) {
             LOGGER.error("Error occurred: {}", ex);
+            throw new PdfGenerationException("Error during PDF creation", ex);
         }
 
         return new ByteArrayInputStream(outputStream.toByteArray());
@@ -68,9 +70,8 @@ public class PdfReportGenerator {
                     cust.getAddress().getPostalCode(), cust.getAddress().getCity(),
                     cust.getAddress().getCountry()));
             customerAddress.setAlignment(Element.ALIGN_LEFT);
-            // Set the position to match the windowed envelope fold
             customerAddress.setIndentationLeft(50);
-            customerAddress.setSpacingBefore(50); // Adjust spacing to fit the windowed envelope
+            customerAddress.setSpacingBefore(50);
             document.add(customerAddress);
         }
     }

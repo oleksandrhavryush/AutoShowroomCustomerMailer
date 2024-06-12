@@ -25,6 +25,11 @@ public class PdfController {
     public String generatePdfForAllCustomers(RedirectAttributes redirectAttributes) {
         LOGGER.info("Initiating PDF generation for all customers.");
         List<Customer> customers = customerService.findAll();
+        if (customers.isEmpty()) {
+            LOGGER.info("No customers found for PDF generation.");
+            redirectAttributes.addFlashAttribute("message", "No customers available for PDF generation.");
+            return "redirect:/uploadStatus";
+        }
         List<String> errorMessages = new ArrayList<>();
 
         customers.forEach(customer -> {

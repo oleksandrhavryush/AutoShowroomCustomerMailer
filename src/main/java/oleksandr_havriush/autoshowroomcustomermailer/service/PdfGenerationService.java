@@ -1,7 +1,5 @@
 package oleksandr_havriush.autoshowroomcustomermailer.service;
 
-import lombok.RequiredArgsConstructor;
-
 import oleksandr_havriush.autoshowroomcustomermailer.exeptions.DirectoryCreationException;
 import oleksandr_havriush.autoshowroomcustomermailer.exeptions.PdfGenerationException;
 import oleksandr_havriush.autoshowroomcustomermailer.model.Car;
@@ -38,19 +36,24 @@ public class PdfGenerationService {
 
     public void createPdfForCustomer(Long customerId) {
         LOGGER.info("Starting PDF generation for customer ID: {}", customerId);
-        Optional<Customer> customerOpt = customerService.findById(customerId);
-        if (!customerOpt.isPresent()) {
-            LOGGER.error("Customer with ID {} not found", customerId);
-            throw new PdfGenerationException("Customer not found for ID: " + customerId);
+        try {
+            Optional<Customer> customerOpt = customerService.findById(customerId);
+            if (!customerOpt.isPresent()) {
+                LOGGER.error("Customer with ID {} not found", customerId);
+                throw new PdfGenerationException("Customer not found for ID: " + customerId);
+            }
+
+            Customer customer = customerOpt.get();
+            List<Car> cars = carService.findAll();
+            ByteArrayInputStream pdfContentStream = PdfReportGenerator.createCustomerPdfReport(Optional.of(customer), cars);
+
+            savePdfToFile(customer, pdfContentStream);
+            LOGGER.info("PDF for customer ID: {} created successfully.", customerId);
+        } catch (RuntimeException ex) {
+            throw new PdfGenerationException("Error during PDF generation for customer ID: " + customerId, ex);
         }
-
-        Customer customer = customerOpt.get();
-        List<Car> cars = carService.findAll();
-        ByteArrayInputStream pdfContentStream = PdfReportGenerator.createCustomerPdfReport(Optional.of(customer), cars);
-
-        savePdfToFile(customer, pdfContentStream);
-        LOGGER.info("PDF for customer ID: {} created successfully.", customerId);
     }
+
 
     private void savePdfToFile(Customer customer, ByteArrayInputStream pdfContentStream) {
         Path pdfFilePath = baseDirectory.resolve(customer.getLastName() + "_" + customer.getFirstName() + "_email.pdf");
@@ -67,16 +70,13 @@ public class PdfGenerationService {
     }
 
     private void ensureDirectoryExists(Path directoryPath) {
-        if (Files.notExists(directoryPath)) {
-            try {
-                Files.createDirectories(directoryPath);
-                LOGGER.info("Directory created at: {}", directoryPath);
-            } catch (IOException e) {
-                String errorMessage = String.format("Failed to create directory: %s", directoryPath);
-                LOGGER.error(errorMessage, e);
-                throw new DirectoryCreationException(errorMessage, e);
-            }
+        try {
+            Files.createDirectories(directoryPath);
+            LOGGER.info("Directory created at: {}", directoryPath);
+        } catch (IOException e) {
+            String errorMessage = String.format("Failed to create directory: %s", directoryPath);
+            LOGGER.error(errorMessage, e);
+            throw new DirectoryCreationException(errorMessage, e);
         }
     }
 }
-
