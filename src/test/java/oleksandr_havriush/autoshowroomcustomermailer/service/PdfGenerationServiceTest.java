@@ -38,7 +38,7 @@ class PdfGenerationServiceTest {
     @Mock
     private CustomerService customerService;
     @Mock
-    private CarService carService;
+    private VehicleService<Car> carService;
 
     private Path baseDirectory;
     private Customer customer;
@@ -58,7 +58,45 @@ class PdfGenerationServiceTest {
 
         address = new Address(1L, "New York Avenue", "125A", "Bonn", "47523", "Germany");
         customer = new Customer(1L, "John", "Doe", address);
-        cars = Arrays.asList(new Car(1L, "Car", "Octavia", "Skoda", 85, 20000.0), new Car(2L, "Truck", "Actros", "Mercedes-Benz", 250, 50000.0), new Car(3L, "Motorcycle", "CBR600RR", "Honda", 85, 15000.0), new Car(4L, "Car", "Model S", "Tesla", 100, 75000.0), new Car(5L, "Motorcycle", "Ninja ZX-10R", "Kawasaki", 200, 16000.0));
+        Car car1 = Car.builder()
+                .name("Octavia")
+                .manufacturer("Skoda")
+                .price(20000.0)
+                .type("Sedan")
+                .power(85)
+                .build();
+        Car car2 = Car.builder()
+                .name("Actros")
+                .manufacturer("Mercedes-Benz")
+                .price(50000.0)
+                .type("Truck")
+                .power(250)
+                .build();
+
+        Car car3 = Car.builder()
+                .name("CBR600RR")
+                .manufacturer("Honda")
+                .price(15000.0)
+                .type("Sport")
+                .power(85)
+                .build();
+
+        Car car4 = Car.builder()
+                .name("Model S")
+                .manufacturer("Tesla")
+                .price(75000.0)
+                .type("Electric")
+                .power(100)
+                .build();
+
+        Car car5 = Car.builder()
+                .name("Ninja ZX-10R")
+                .manufacturer("Kawasaki")
+                .price(16000.0)
+                .type("Sport")
+                .power(200)
+                .build();
+        cars = Arrays.asList(car1, car2, car3, car4, car5);
         pdfContentStream = new ByteArrayInputStream(new byte[0]);
 
         pdfGenerationService = new PdfGenerationService(basePath, customerService, carService);

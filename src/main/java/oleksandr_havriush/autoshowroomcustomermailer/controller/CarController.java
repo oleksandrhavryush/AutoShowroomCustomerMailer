@@ -3,8 +3,9 @@ package oleksandr_havriush.autoshowroomcustomermailer.controller;
 import lombok.RequiredArgsConstructor;
 import oleksandr_havriush.autoshowroomcustomermailer.exeptions.FileProcessingException;
 import oleksandr_havriush.autoshowroomcustomermailer.exeptions.NoCarsToSaveException;
-import oleksandr_havriush.autoshowroomcustomermailer.model.CarList;
-import oleksandr_havriush.autoshowroomcustomermailer.service.CarService;
+import oleksandr_havriush.autoshowroomcustomermailer.model.Car;
+import oleksandr_havriush.autoshowroomcustomermailer.model.VehicleList;
+import oleksandr_havriush.autoshowroomcustomermailer.service.VehicleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -17,8 +18,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequiredArgsConstructor
 @SessionAttributes("carList")
 public class CarController {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(CarController.class);
-    private final CarService carService;
+    private final VehicleService<Car> carService;
 
     @GetMapping("/cars")
     public String showUploadPage() {
@@ -36,7 +38,7 @@ public class CarController {
         }
 
         try {
-            CarList carList = carService.processXmlFile(file);
+            VehicleList<Car> carList = carService.processFile(file);
             LOGGER.info("XML file '{}' uploaded and processed successfully.", file.getOriginalFilename());
             redirectAttributes.addFlashAttribute("carList", carList);
             return "redirect:/displayCars";
@@ -44,19 +46,23 @@ public class CarController {
             LOGGER.error("Error processing XML file '{}': ", file.getOriginalFilename(), e);
             redirectAttributes.addFlashAttribute("message", "Error processing XML file.");
             return "redirect:/uploadStatus";
+        } catch (RuntimeException e) {
+            LOGGER.error("Unexpected error: ", e);
+            redirectAttributes.addFlashAttribute("message", "Error processing XML file.");
+            return "redirect:/uploadStatus";
         }
     }
 
     @GetMapping("/displayCars")
-    public String displayCars(@ModelAttribute("carList") CarList carList, Model model) {
+    public String displayCars(@ModelAttribute("carList") VehicleList<Car> carList, Model model) {
         model.addAttribute("carList", carList);
         return "displayCars";
     }
 
     @PostMapping("/save")
-    public String saveCars(@ModelAttribute("carList") CarList carList, RedirectAttributes redirectAttributes) {
+    public String saveCars(@ModelAttribute("carList") VehicleList<Car> carList, RedirectAttributes redirectAttributes) {
         try {
-            carService.saveCars(carList);
+            carService.saveVehicles(carList);
             LOGGER.info("Cars saved to database successfully.");
             redirectAttributes.addFlashAttribute("message", "Cars saved to database successfully.");
             return "redirect:/uploadStatus";

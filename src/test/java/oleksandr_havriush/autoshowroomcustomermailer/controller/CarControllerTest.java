@@ -2,8 +2,11 @@ package oleksandr_havriush.autoshowroomcustomermailer.controller;
 
 import oleksandr_havriush.autoshowroomcustomermailer.exeptions.FileProcessingException;
 import oleksandr_havriush.autoshowroomcustomermailer.exeptions.NoCarsToSaveException;
+import oleksandr_havriush.autoshowroomcustomermailer.model.Car;
 import oleksandr_havriush.autoshowroomcustomermailer.model.CarList;
-import oleksandr_havriush.autoshowroomcustomermailer.service.CarService;
+import oleksandr_havriush.autoshowroomcustomermailer.model.VehicleList;
+import oleksandr_havriush.autoshowroomcustomermailer.service.VehicleService;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +28,7 @@ class CarControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private CarService carService;
+    private VehicleService<Car> carService;
 
     @Test
     @DisplayName("Test show upload page")
@@ -39,9 +42,9 @@ class CarControllerTest {
     @DisplayName("Test handle file upload with success")
     void testHandleFileUpload_Success() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "test.xml", "text/xml", "<cars></cars>".getBytes());
-        CarList carList = new CarList();
+        VehicleList<Car> carList = new CarList();
 
-        when(carService.processXmlFile(file)).thenReturn(carList);
+        when(carService.processFile(file)).thenReturn(carList);
 
         mockMvc.perform(multipart("/upload").file(file))
                 .andExpect(status().is3xxRedirection())
@@ -65,7 +68,7 @@ class CarControllerTest {
     void testHandleFileUpload_Error() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "test.xml", "text/xml", "<cars></cars>".getBytes());
 
-        when(carService.processXmlFile(file)).thenThrow(new FileProcessingException("Error processing XML file"));
+        when(carService.processFile(file)).thenThrow(new FileProcessingException("Error processing XML file"));
 
         mockMvc.perform(multipart("/upload").file(file))
                 .andExpect(status().is3xxRedirection())
@@ -76,7 +79,7 @@ class CarControllerTest {
     @Test
     @DisplayName("Test display cars")
     void testDisplayCars() throws Exception {
-        CarList carList = new CarList();
+        VehicleList<Car> carList = new CarList();
 
         mockMvc.perform(get("/displayCars").flashAttr("carList", carList))
                 .andExpect(status().isOk())
@@ -87,9 +90,9 @@ class CarControllerTest {
     @Test
     @DisplayName("Test save cars with success")
     void testSaveCars_Success() throws Exception {
-        CarList carList = new CarList();
+        VehicleList<Car> carList = new CarList();
 
-        doNothing().when(carService).saveCars(carList);
+        doNothing().when(carService).saveVehicles(carList);
 
         mockMvc.perform(post("/save").flashAttr("carList", carList))
                 .andExpect(status().is3xxRedirection())
@@ -100,9 +103,9 @@ class CarControllerTest {
     @Test
     @DisplayName("Test save cars with no cars")
     void testSaveCars_NoCars() throws Exception {
-        CarList carList = new CarList();
+        VehicleList<Car> carList = new CarList();
 
-        doThrow(new NoCarsToSaveException("No cars to save")).when(carService).saveCars(carList);
+        doThrow(new NoCarsToSaveException("No cars to save")).when(carService).saveVehicles(carList);
 
         mockMvc.perform(post("/save").flashAttr("carList", carList))
                 .andExpect(status().is3xxRedirection())
@@ -113,9 +116,9 @@ class CarControllerTest {
     @Test
     @DisplayName("Test save cars with error")
     void testSaveCars_Error() throws Exception {
-        CarList carList = new CarList();
+        VehicleList<Car> carList = new CarList();
 
-        doThrow(new RuntimeException("Unexpected error")).when(carService).saveCars(carList);
+        doThrow(new RuntimeException("Unexpected error")).when(carService).saveVehicles(carList);
 
         mockMvc.perform(post("/save").flashAttr("carList", carList))
                 .andExpect(status().is3xxRedirection())
@@ -135,7 +138,7 @@ class CarControllerTest {
     @DisplayName("Test handle file upload with invalid XML")
     void testHandleFileUpload_InvalidXml() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "invalid.xml", "text/xml", "<cars><car></car>".getBytes());
-        when(carService.processXmlFile(file)).thenThrow(new FileProcessingException("Invalid XML file"));
+        when(carService.processFile(file)).thenThrow(new FileProcessingException("Invalid XML file"));
 
         mockMvc.perform(multipart("/upload").file(file))
                 .andExpect(status().is3xxRedirection())
@@ -147,10 +150,10 @@ class CarControllerTest {
     @DisplayName("Test session attribute after file upload")
     void testSessionAttributeAfterFileUpload() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "test.xml", "text/xml", "<cars></cars>".getBytes());
-        CarList carList = new CarList();
-        carList.setCars(new ArrayList<>());
+        VehicleList<Car> carList = new CarList();
+        carList.setVehicles(new ArrayList<>());
 
-        when(carService.processXmlFile(file)).thenReturn(carList);
+        when(carService.processFile(file)).thenReturn(carList);
 
         mockMvc.perform(multipart("/upload").file(file))
                 .andExpect(status().is3xxRedirection())

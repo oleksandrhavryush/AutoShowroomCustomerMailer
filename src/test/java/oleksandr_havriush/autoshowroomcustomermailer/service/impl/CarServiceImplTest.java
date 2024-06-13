@@ -1,14 +1,16 @@
-package oleksandr_havriush.autoshowroomcustomermailer.service;
+package oleksandr_havriush.autoshowroomcustomermailer.service.impl;
 
+import static org.junit.jupiter.api.Assertions.*;
 import oleksandr_havriush.autoshowroomcustomermailer.exeptions.FileProcessingException;
 import oleksandr_havriush.autoshowroomcustomermailer.exeptions.NoCarsToSaveException;
 import oleksandr_havriush.autoshowroomcustomermailer.exeptions.XmlParsingException;
 import oleksandr_havriush.autoshowroomcustomermailer.model.Car;
 import oleksandr_havriush.autoshowroomcustomermailer.model.CarList;
+import oleksandr_havriush.autoshowroomcustomermailer.model.VehicleList;
 import oleksandr_havriush.autoshowroomcustomermailer.repository.CarRepository;
+import oleksandr_havriush.autoshowroomcustomermailer.service.VehicleService;
 import oleksandr_havriush.autoshowroomcustomermailer.util.XmlToCarListConverter;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -29,8 +31,7 @@ import java.util.Collections;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
-class CarServiceTest {
-
+class CarServiceImplTest {
     @Mock
     private CarRepository carRepository;
 
@@ -38,18 +39,51 @@ class CarServiceTest {
     private XmlToCarListConverter parser;
 
     @InjectMocks
-    private CarService carService;
+    private CarServiceImpl carService;
 
-    private CarList carList;
+    private VehicleList<Car> carList;
     private List<Car> carListAsList;
 
     @BeforeEach
     public void setUp() {
-        Car car1 = new Car(null, "Car", "Octavia", "Skoda", 85, 20000.0);
-        Car car2 = new Car(null, "Truck", "Actros", "Mercedes-Benz", 250, 50000.0);
-        Car car3 = new Car(null, "Motorcycle", "CBR600RR", "Honda", 85, 15000.0);
-        Car car4 = new Car(null, "Car", "Model S", "Tesla", 100, 75000.0);
-        Car car5 = new Car(null, "Motorcycle", "Ninja ZX-10R", "Kawasaki", 200, 16000.0);
+        Car car1 = Car.builder()
+                .name("Octavia")
+                .manufacturer("Skoda")
+                .price(20000.0)
+                .type("Sedan")
+                .power(85)
+                .build();
+        Car car2 = Car.builder()
+                .name("Actros")
+                .manufacturer("Mercedes-Benz")
+                .price(50000.0)
+                .type("Truck")
+                .power(250)
+                .build();
+
+        Car car3 = Car.builder()
+                .name("CBR600RR")
+                .manufacturer("Honda")
+                .price(15000.0)
+                .type("Sport")
+                .power(85)
+                .build();
+
+        Car car4 = Car.builder()
+                .name("Model S")
+                .manufacturer("Tesla")
+                .price(75000.0)
+                .type("Electric")
+                .power(100)
+                .build();
+
+        Car car5 = Car.builder()
+                .name("Ninja ZX-10R")
+                .manufacturer("Kawasaki")
+                .price(16000.0)
+                .type("Sport")
+                .power(200)
+                .build();
 
         carListAsList = Arrays.asList(car1, car2, car3, car4, car5);
         carList = new CarList(carListAsList);
@@ -67,8 +101,8 @@ class CarServiceTest {
     @Test
     @DisplayName("Test saving a list of cars to the database")
     public void testSaveCarsToDb() {
-        carService.saveCars(carList);
-        verify(carRepository).saveAll(carList.getCars());
+        carService.saveVehicles(carList);
+        verify(carRepository).saveAll(carList.getVehicles());
     }
 
     @Test
@@ -77,9 +111,9 @@ class CarServiceTest {
         MultipartFile multipartFile = mock(MultipartFile.class);
         String xmlContent = "<cars>...</cars>"; // Simplified XML content
         when(multipartFile.getBytes()).thenReturn(xmlContent.getBytes(StandardCharsets.UTF_8));
-        when(parser.convert(xmlContent)).thenReturn(carList);
+        when(parser.convert(xmlContent)).thenReturn((CarList) carList);
 
-        CarList result = carService.processXmlFile(multipartFile);
+        VehicleList<Car> result = carService.processFile(multipartFile);
         assertEquals(carList, result);
         verify(parser).convert(xmlContent);
     }
@@ -90,7 +124,7 @@ class CarServiceTest {
         MultipartFile multipartFile = mock(MultipartFile.class);
         try {
             when(multipartFile.getBytes()).thenThrow(new IOException("Test exception"));
-            assertThrows(FileProcessingException.class, () -> carService.processXmlFile(multipartFile));
+            assertThrows(FileProcessingException.class, () -> carService.processFile(multipartFile));
         } catch (IOException e) {
             fail("IOException should not occur in this test");
         }
@@ -101,7 +135,7 @@ class CarServiceTest {
     public void testSaveCarsToDb_EmptyList() {
         CarList emptyCarList = new CarList(Arrays.asList());
 
-        assertThrows(NoCarsToSaveException.class, () -> carService.saveCars(emptyCarList));
+        assertThrows(NoCarsToSaveException.class, () -> carService.saveVehicles(emptyCarList));
 
         verify(carRepository, never()).saveAll(any());
     }
@@ -114,7 +148,7 @@ class CarServiceTest {
         try {
             when(multipartFile.getBytes()).thenReturn(invalidXmlContent.getBytes(StandardCharsets.UTF_8));
             when(parser.convert(invalidXmlContent)).thenThrow(new XmlParsingException("Invalid XML"));
-            assertThrows(XmlParsingException.class, () -> carService.processXmlFile(multipartFile));
+            assertThrows(XmlParsingException.class, () -> carService.processFile(multipartFile));
         } catch (IOException e) {
             fail("IOException should not occur in this test");
         }
@@ -125,7 +159,7 @@ class CarServiceTest {
     public void testSaveCarsToDb_SaveAllThrowsException() {
         doThrow(new DataAccessException("...") {
         }).when(carRepository).saveAll(any());
-        assertThrows(DataAccessException.class, () -> carService.saveCars(carList));
+        assertThrows(DataAccessException.class, () -> carService.saveVehicles(carList));
     }
 
     @Test
@@ -139,14 +173,14 @@ class CarServiceTest {
     @Test
     @DisplayName("Test processing null file throws exception")
     public void testProcessXmlFile_NullFile() {
-        assertThrows(NullPointerException.class, () -> carService.processXmlFile(null));
+        assertThrows(NullPointerException.class, () -> carService.processFile(null));
     }
 
     @Test
     @DisplayName("Test saving empty CarList throws exception")
     public void testSaveCars_EmptyCarList() {
         CarList emptyCarList = new CarList(new ArrayList<>());
-        assertThrows(NoCarsToSaveException.class, () -> carService.saveCars(emptyCarList));
+        assertThrows(NoCarsToSaveException.class, () -> carService.saveVehicles(emptyCarList));
     }
 
     @Test
@@ -159,6 +193,6 @@ class CarServiceTest {
     @Test
     @DisplayName("Test saving null CarList throws exception")
     public void testSaveCars_NullCarList() {
-        assertThrows(NoCarsToSaveException.class, () -> carService.saveCars(null));
+        assertThrows(NoCarsToSaveException.class, () -> carService.saveVehicles(null));
     }
 }
