@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -38,6 +39,9 @@ class PdfControllerTest {
     private List<Customer> customers;
     private Customer customer;
 
+    @Value("${pdf.generated-mails-path}")
+    private String pdfPath;
+
     @BeforeEach
     void setUp() {
         customer = new Customer(1L, "John", "Doe", null);
@@ -53,7 +57,7 @@ class PdfControllerTest {
         mockMvc.perform(get("/generatePdf"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/uploadStatus"))
-                .andExpect(flash().attribute("message", "PDF files saved to directory src/main/resources/generated_mails successfully for all customers."));
+                .andExpect(flash().attribute("message", "PDF files saved to directory " + pdfPath + " successfully for all customers."));
     }
 
     @Test

@@ -23,11 +23,11 @@ import java.util.Optional;
 public class PdfGenerationService {
     private static final Logger LOGGER = LoggerFactory.getLogger(PdfGenerationService.class);
     private final CustomerService customerService;
-    private final CarService carService;
+    private final VehicleService<Car> carService;
     private final Path baseDirectory;
 
     public PdfGenerationService(@Value("${pdf.generated-mails-path}") String basePath,
-                                CustomerService customerService, CarService carService) {
+                                CustomerService customerService, VehicleService<Car> carService) {
         this.baseDirectory = Paths.get(basePath);
         this.customerService = customerService;
         this.carService = carService;

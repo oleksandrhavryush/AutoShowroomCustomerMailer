@@ -52,8 +52,16 @@ public class XmlToCarListConverterTest {
     @DisplayName("Test successful XML to CarList conversion")
     public void testConvert_Success() throws JAXBException {
         String xml = "<carList><cars><car><id>1</id><type>Car</type><model>Octavia</model><brand>Skoda</brand><horsepower>85</horsepower><price>20000.0</price></car></cars></carList>";
+        Car car1 = Car.builder()
+                .name("Octavia")
+                .manufacturer("Skoda")
+                .price(20000.0)
+                .type("Sedan")
+                .power(85)
+                .build();
+
         CarList expectedCarList = new CarList();
-        expectedCarList.setCars(List.of(new Car(1L, "Car", "Octavia", "Skoda", 85, 20000.0)));
+        expectedCarList.setCars(List.of(car1));
 
         JAXBContext jaxbContext = mock(JAXBContext.class);
         Unmarshaller unmarshaller = mock(Unmarshaller.class);
