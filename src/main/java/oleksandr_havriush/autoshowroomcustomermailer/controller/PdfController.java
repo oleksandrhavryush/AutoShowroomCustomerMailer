@@ -14,6 +14,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Controller class for handling PDF generation for customers.
+ */
 @Controller
 @RequiredArgsConstructor
 public class PdfController {
@@ -25,6 +28,12 @@ public class PdfController {
     @Value("${pdf.generated-mails-path}")
     private String pdfPath;
 
+    /**
+     * Generates PDF reports for all customers and handles the process flow and errors.
+     *
+     * @param redirectAttributes attributes for flash messages
+     * @return the redirect view name
+     */
     @GetMapping(value = "/generatePdf")
     public String generatePdfForAllCustomers(RedirectAttributes redirectAttributes) {
         LOGGER.info("Initiating PDF generation for all customers.");
@@ -54,6 +63,13 @@ public class PdfController {
         return "redirect:/uploadStatus";
     }
 
+    /**
+     * Generates a PDF for a given customer and handles any errors that occur during the process.
+     *
+     * @param customer the customer for whom the PDF is to be generated
+     * @param errorMessages a list to collect error messages
+     * @return true if PDF generation was successful, false otherwise
+     */
     private boolean generatePdfAndHandleErrors(Customer customer, List<String> errorMessages) {
         try {
             pdfGenerationService.createPdfForCustomer(customer.getId());

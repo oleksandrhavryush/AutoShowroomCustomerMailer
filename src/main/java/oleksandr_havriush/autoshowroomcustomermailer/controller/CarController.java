@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+/**
+ * Controller class for handling car-related operations.
+ */
 @Controller
 @RequiredArgsConstructor
 @SessionAttributes("carList")
@@ -22,12 +25,25 @@ public class CarController {
     private static final Logger LOGGER = LoggerFactory.getLogger(CarController.class);
     private final VehicleService<Car> carService;
 
+    /**
+     * Handles GET requests for the car upload page.
+     *
+     * @return the name of the upload view
+     */
     @GetMapping("/cars")
     public String showUploadPage() {
         LOGGER.info("Accessed the cars upload page.");
         return "upload";
     }
 
+    /**
+     * Handles POST requests for file upload.
+     *
+     * @param file the uploaded file
+     * @param model the model object
+     * @param redirectAttributes attributes for redirect scenarios
+     * @return the redirect view name
+     */
     @PostMapping("/upload")
     public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model, RedirectAttributes redirectAttributes) {
         LOGGER.info("Received a file upload request. File name: {}", file.getOriginalFilename());
@@ -53,12 +69,26 @@ public class CarController {
         }
     }
 
+    /**
+     * Displays the list of cars.
+     *
+     * @param carList the list of cars
+     * @param model the model object
+     * @return the name of the display cars view
+     */
     @GetMapping("/displayCars")
     public String displayCars(@ModelAttribute("carList") VehicleList<Car> carList, Model model) {
         model.addAttribute("carList", carList);
         return "displayCars";
     }
 
+    /**
+     * Handles POST requests to save the list of cars to the database.
+     *
+     * @param carList the list of cars
+     * @param redirectAttributes attributes for redirect scenarios
+     * @return the redirect view name
+     */
     @PostMapping("/save")
     public String saveCars(@ModelAttribute("carList") VehicleList<Car> carList, RedirectAttributes redirectAttributes) {
         try {
@@ -77,6 +107,11 @@ public class CarController {
         }
     }
 
+    /**
+     * Displays the upload status page.
+     *
+     * @return the name of the upload status view
+     */
     @GetMapping("/uploadStatus")
     public String showUploadStatus() {
         return "uploadStatus";

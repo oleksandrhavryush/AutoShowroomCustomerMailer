@@ -15,12 +15,23 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+/**
+ * Utility class for generating PDF reports for customers.
+ */
 public class PdfReportGenerator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PdfReportGenerator.class);
     private static final String LOGO_PATH = "src/main/resources/logo.jpg";
     private static final String DEALERSHIP_INFO = "Car Dealership GmbH\nZoellner 40\nOverath, 51491\nGermany";
 
+    /**
+     * Generates a PDF report containing customer details and a list of cars.
+     *
+     * @param customer the optional customer details to include in the report
+     * @param carList  the list of cars to include in the report
+     * @return a ByteArrayInputStream containing the generated PDF content
+     * @throws PdfGenerationException if an error occurs during PDF generation
+     */
     public static ByteArrayInputStream createCustomerPdfReport(Optional<Customer> customer, List<Car> carList) {
         Document document = new Document(PageSize.A4);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -43,6 +54,13 @@ public class PdfReportGenerator {
         return new ByteArrayInputStream(outputStream.toByteArray());
     }
 
+    /**
+     * Adds the dealership logo to the PDF document.
+     *
+     * @param document the PDF document to which the logo is added
+     * @throws IOException     if there is an error reading the logo image
+     * @throws DocumentException if there is an error adding the logo to the document
+     */
     private static void addDealershipLogo(Document document) throws IOException, DocumentException {
         Image logo = Image.getInstance(LOGO_PATH);
         float pageWidth = document.getPageSize().getWidth();
@@ -55,12 +73,25 @@ public class PdfReportGenerator {
         document.add(logo);
     }
 
+    /**
+     * Adds the dealership address to the PDF document.
+     *
+     * @param document the PDF document to which the address is added
+     * @throws DocumentException if there is an error adding the address to the document
+     */
     private static void addDealershipAddress(Document document) throws DocumentException {
         Paragraph address = new Paragraph(DEALERSHIP_INFO);
         address.setAlignment(Element.ALIGN_LEFT);
         document.add(address);
     }
 
+    /**
+     * Adds the customer address to the PDF document.
+     *
+     * @param document the PDF document to which the customer address is added
+     * @param customer the optional customer details to include in the address
+     * @throws DocumentException if there is an error adding the customer address to the document
+     */
     private static void addCustomerAddress(Document document, Optional<Customer> customer) throws DocumentException {
         if (customer.isPresent()) {
             Customer cust = customer.get();
@@ -76,6 +107,13 @@ public class PdfReportGenerator {
         }
     }
 
+    /**
+     * Adds the letter body to the PDF document.
+     *
+     * @param document the PDF document to which the letter body is added
+     * @param customer the optional customer details to include in the letter body
+     * @throws DocumentException if there is an error adding the letter body to the document
+     */
     private static void addLetterBody(Document document, Optional<Customer> customer) throws DocumentException {
         if (customer.isPresent()) {
             Paragraph greeting = new Paragraph(String.format("\nDear %s %s,", customer.get().getFirstName(), customer.get().getLastName()));
@@ -88,6 +126,13 @@ public class PdfReportGenerator {
         }
     }
 
+    /**
+     * Adds the car table to the PDF document.
+     *
+     * @param document the PDF document to which the car table is added
+     * @param carList  the list of cars to include in the table
+     * @throws DocumentException if there is an error adding the car table to the document
+     */
     private static void addCarTable(Document document, List<Car> carList) throws DocumentException {
         PdfPTable table = new PdfPTable(new float[]{1, 3, 3, 3, 2, 3});
         table.setWidthPercentage(100);
@@ -96,6 +141,11 @@ public class PdfReportGenerator {
         document.add(table);
     }
 
+    /**
+     * Adds the header row to the car table.
+     *
+     * @param table the PdfPTable to which the header row is added
+     */
     private static void addTableHeader(PdfPTable table) {
         Stream.of("Id", "Type", "Name", "Manufacturer", "Power", "Price")
                 .forEach(columnTitle -> {
@@ -107,6 +157,12 @@ public class PdfReportGenerator {
                 });
     }
 
+    /**
+     * Adds the rows with car details to the car table.
+     *
+     * @param table   the PdfPTable to which the car rows are added
+     * @param carList the list of cars to include in the table rows
+     */
     private static void addTableRows(PdfPTable table, List<Car> carList) {
         carList.forEach(car -> {
             table.addCell(car.getId().toString());
@@ -118,6 +174,12 @@ public class PdfReportGenerator {
         });
     }
 
+    /**
+     * Adds the signature to the PDF document.
+     *
+     * @param document the PDF document to which the signature is added
+     * @throws DocumentException if there is an error adding the signature to the document
+     */
     private static void addSignature(Document document) throws DocumentException {
         Paragraph signature = new Paragraph("\nSincerely,\n\n" + "Your Car Dealership Team");
         signature.setSpacingBefore(50);

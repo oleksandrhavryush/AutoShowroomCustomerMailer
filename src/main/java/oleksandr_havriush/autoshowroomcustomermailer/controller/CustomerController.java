@@ -23,6 +23,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.NoSuchElementException;
 
+/**
+ * Controller class for handling customer-related operations.
+ */
 @Controller
 @RequiredArgsConstructor
 public class CustomerController {
@@ -30,11 +33,22 @@ public class CustomerController {
     private final CustomerService customerService;
     private final MessageSource messageSource;
 
+    /**
+     * Displays the customer form page.
+     *
+     * @return the name of the customer form view
+     */
     @GetMapping("/customer")
     public String showCustomerForm() {
         return "customer";
     }
 
+    /**
+     * Displays the list of customers.
+     *
+     * @param model the model object
+     * @return the name of the customer list view
+     */
     @GetMapping("/customerList")
     public String getCustomerList(Model model) {
         List<Customer> customerList = this.customerService.findAll();
@@ -42,6 +56,14 @@ public class CustomerController {
         return "customerList";
     }
 
+    /**
+     * Handles the creation of a new customer.
+     *
+     * @param payload the new customer payload
+     * @param bindingResult the result of binding the request parameters to the payload
+     * @param model the model object
+     * @return the redirect view name or the customer form view in case of errors
+     */
     @PostMapping("/customer")
     public String createCustomer(@Valid NewCustomerPayload payload,
                                  BindingResult bindingResult,
@@ -71,6 +93,13 @@ public class CustomerController {
         }
     }
 
+    /**
+     * Displays the details of a customer.
+     *
+     * @param customerId the ID of the customer
+     * @param model the model object
+     * @return the name of the customer details view
+     */
     @GetMapping("/customerDetails/{customerId}")
     public String showCustomerDetails(@PathVariable Long customerId, Model model) {
         Customer customer = customerService.findById(customerId)
@@ -79,6 +108,13 @@ public class CustomerController {
         return "customerDetails";
     }
 
+    /**
+     * Displays the edit form for a customer.
+     *
+     * @param id the ID of the customer to edit
+     * @param model the model object
+     * @return the name of the edit customer view
+     */
     @GetMapping("/customer/edit/{id}")
     public String showEditForm(@PathVariable("id") Long id, Model model) {
         Customer customer = customerService.findById(id)
@@ -97,6 +133,15 @@ public class CustomerController {
         return "editCustomer";
     }
 
+    /**
+     * Handles updating of a customer's details.
+     *
+     * @param id the ID of the customer to update
+     * @param payload the updated customer payload
+     * @param bindingResult the result of binding the request parameters to the payload
+     * @param model the model object
+     * @return the redirect view name or the edit customer view in case of errors
+     */
     @PostMapping("/customer/edit/{id}")
     public String updateCustomer(@PathVariable("id") Long id,
                                  @Valid @ModelAttribute UpdateCustomerPayload payload,
@@ -123,12 +168,27 @@ public class CustomerController {
         }
     }
 
+    /**
+     * Handles deleting a customer.
+     *
+     * @param id the ID of the customer to delete
+     * @return the redirect view name
+     */
     @PostMapping("/customer/delete/{id}")
     public String deleteCustomer(@PathVariable("id") Long id) {
         customerService.deleteById(id);
         return "redirect:/";
     }
 
+    /**
+     * Exception handler for NoSuchElementException.
+     *
+     * @param exception the thrown NoSuchElementException
+     * @param model the model object
+     * @param response the HTTP servlet response
+     * @param locale the current locale
+     * @return the name of the error view
+     */
     @ExceptionHandler(NoSuchElementException.class)
     public String handleNoSuchElementException(NoSuchElementException exception, Model model,
                                                HttpServletResponse response, Locale locale) {
@@ -139,9 +199,14 @@ public class CustomerController {
         return "errors/404";
     }
 
+    /**
+     * Exception handler for RuntimeException.
+     *
+     * @param ex the thrown RuntimeException
+     * @return a ResponseEntity with an appropriate error message and HTTP status
+     */
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleRuntimeException(RuntimeException ex) {
-        // Log the exception, return an appropriate error message and HTTP status
         LOGGER.error("An unexpected error occurred", ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected server error occurred");
     }

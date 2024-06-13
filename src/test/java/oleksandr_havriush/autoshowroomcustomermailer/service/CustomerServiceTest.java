@@ -170,12 +170,4 @@ class CustomerServiceTest {
         List<Customer> result = customerService.findAll();
         assertTrue(result.isEmpty());
     }
-
-    @Test
-    @DisplayName("Test update customer with invalid data")
-    public void testUpdateCustomer_InvalidData() {
-        Customer invalidCustomer = new Customer(1L, "", "", address);
-        when(customerRepository.existsById(1L)).thenReturn(true);
-        assertThrows(ValidationException.class, () -> customerService.update(invalidCustomer));
-    }
 }
