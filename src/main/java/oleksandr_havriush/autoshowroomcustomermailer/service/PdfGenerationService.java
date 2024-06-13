@@ -19,6 +19,9 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service class for generating PDF reports for customers.
+ */
 @Service
 public class PdfGenerationService {
     private static final Logger LOGGER = LoggerFactory.getLogger(PdfGenerationService.class);
@@ -26,6 +29,14 @@ public class PdfGenerationService {
     private final VehicleService<Car> carService;
     private final Path baseDirectory;
 
+    /**
+     * Constructor to initialize PdfGenerationService with base directory path,
+     * CustomerService, and VehicleService.
+     *
+     * @param basePath       the base directory path where PDF files will be saved
+     * @param customerService the service for managing customers
+     * @param carService     the service for managing cars
+     */
     public PdfGenerationService(@Value("${pdf.generated-mails-path}") String basePath,
                                 CustomerService customerService, VehicleService<Car> carService) {
         this.baseDirectory = Paths.get(basePath);
@@ -34,6 +45,12 @@ public class PdfGenerationService {
         ensureDirectoryExists(this.baseDirectory);
     }
 
+    /**
+     * Initiates PDF generation for a customer based on customer ID.
+     *
+     * @param customerId the ID of the customer for whom PDF is to be generated
+     * @throws PdfGenerationException if an error occurs during PDF generation
+     */
     public void createPdfForCustomer(Long customerId) {
         LOGGER.info("Starting PDF generation for customer ID: {}", customerId);
         try {
@@ -54,7 +71,13 @@ public class PdfGenerationService {
         }
     }
 
-
+    /**
+     * Saves PDF content to a file in the base directory.
+     *
+     * @param customer         the customer for whom the PDF is generated
+     * @param pdfContentStream the input stream containing PDF content
+     * @throws PdfGenerationException if an error occurs while saving the PDF
+     */
     private void savePdfToFile(Customer customer, ByteArrayInputStream pdfContentStream) {
         Path pdfFilePath = baseDirectory.resolve(customer.getLastName() + "_" + customer.getFirstName() + "_email.pdf");
         try (OutputStream outputStream = Files.newOutputStream(pdfFilePath)) {
@@ -69,6 +92,12 @@ public class PdfGenerationService {
         }
     }
 
+    /**
+     * Ensures that the base directory exists; creates it if necessary.
+     *
+     * @param directoryPath the path of the directory to ensure exists
+     * @throws DirectoryCreationException if an error occurs while creating the directory
+     */
     private void ensureDirectoryExists(Path directoryPath) {
         try {
             Files.createDirectories(directoryPath);

@@ -4,6 +4,10 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
+/**
+ * Data Transfer Object (DTO) for updating an existing customer.
+ * This record holds customer information with validation constraints to ensure the data integrity.
+ */
 public record UpdateCustomerPayload(
         @NotNull(message = "{customer.create.errors.firstName_is_null}")
         @Size(min = 1, max = 50, message = "{customer.create.errors.firstName_size_is_invalid}")

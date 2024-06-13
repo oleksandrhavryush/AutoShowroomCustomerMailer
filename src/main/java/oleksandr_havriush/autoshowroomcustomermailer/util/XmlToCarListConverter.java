@@ -11,10 +11,20 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.StringReader;
 
+/**
+ * Utility class to convert XML data into a CarList object using JAXB.
+ */
 @Component
 public class XmlToCarListConverter {
     private static final Logger LOGGER = LoggerFactory.getLogger(XmlToCarListConverter.class);
 
+    /**
+     * Converts XML string into a CarList object.
+     *
+     * @param xml the XML string to be parsed
+     * @return CarList object parsed from XML
+     * @throws XmlParsingException if there is an error parsing the XML
+     */
     public CarList convert(String xml) {
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(CarList.class);

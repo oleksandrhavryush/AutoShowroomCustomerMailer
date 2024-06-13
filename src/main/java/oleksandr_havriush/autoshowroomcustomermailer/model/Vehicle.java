@@ -5,6 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+/**
+ * Represents an abstract base class for vehicles with attributes such as name, manufacturer, and price.
+ */
 @Data
 @SuperBuilder
 @NoArgsConstructor

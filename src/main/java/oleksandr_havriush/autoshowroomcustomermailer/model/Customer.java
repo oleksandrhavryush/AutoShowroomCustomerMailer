@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Represents a customer entity with details such as first name, last name, and address.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
