@@ -141,7 +141,7 @@ class CustomerControllerTest {
 
         mockMvc.perform(post("/customer/delete/{id}", 1L))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/"));
+                .andExpect(redirectedUrl("/uploadStatus"));
     }
 
     @Test
