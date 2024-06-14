@@ -1,0 +1,43 @@
+-- Vehicle entries
+INSERT INTO vehicle (name, manufacturer, price) VALUES ('Model S', 'Tesla', 75000);
+INSERT INTO vehicle (name, manufacturer, price) VALUES ('Model 3', 'Tesla', 35000);
+INSERT INTO vehicle (name, manufacturer, price) VALUES ('Model X', 'Tesla', 80000);
+INSERT INTO vehicle (name, manufacturer, price) VALUES ('Model Y', 'Tesla', 45000);
+INSERT INTO vehicle (name, manufacturer, price) VALUES ('Civic', 'Honda', 20000);
+INSERT INTO vehicle (name, manufacturer, price) VALUES ('Accord', 'Honda', 25000);
+INSERT INTO vehicle (name, manufacturer, price) VALUES ('Mustang', 'Ford', 30000);
+INSERT INTO vehicle (name, manufacturer, price) VALUES ('F-150', 'Ford', 27000);
+INSERT INTO vehicle (name, manufacturer, price) VALUES ('Corolla', 'Toyota', 18000);
+INSERT INTO vehicle (name, manufacturer, price) VALUES ('Camry', 'Toyota', 24000);
+INSERT INTO vehicle (name, manufacturer, price) VALUES ('911', 'Porsche', 90000);
+INSERT INTO vehicle (name, manufacturer, price) VALUES ('Panamera', 'Porsche', 85000);
+INSERT INTO vehicle (name, manufacturer, price) VALUES ('A4', 'Audi', 37000);
+INSERT INTO vehicle (name, manufacturer, price) VALUES ('A6', 'Audi', 40000);
+INSERT INTO vehicle (name, manufacturer, price) VALUES ('Golf', 'Volkswagen', 23000);
+INSERT INTO vehicle (name, manufacturer, price) VALUES ('Passat', 'Volkswagen', 28000);
+INSERT INTO vehicle (name, manufacturer, price) VALUES ('X5', 'BMW', 60000);
+INSERT INTO vehicle (name, manufacturer, price) VALUES ('3 Series', 'BMW', 35000);
+INSERT INTO vehicle (name, manufacturer, price) VALUES ('C-Class', 'Mercedes-Benz', 40000);
+INSERT INTO vehicle (name, manufacturer, price) VALUES ('E-Class', 'Mercedes-Benz', 55000);
+
+-- Car entries (assuming the vehicle table entries have IDs 1 to 20)
+INSERT INTO car (id, type, power) VALUES (1, 'Electric', 417);
+INSERT INTO car (id, type, power) VALUES (2, 'Electric', 283);
+INSERT INTO car (id, type, power) VALUES (3, 'Electric', 503);
+INSERT INTO car (id, type, power) VALUES (4, 'Electric', 384);
+INSERT INTO car (id, type, power) VALUES (5, 'Sedan', 158);
+INSERT INTO car (id, type, power) VALUES (6, 'Sedan', 192);
+INSERT INTO car (id, type, power) VALUES (7, 'Coupe', 310);
+INSERT INTO car (id, type, power) VALUES (8, 'Truck', 290);
+INSERT INTO car (id, type, power) VALUES (9, 'Sedan', 139);
+INSERT INTO car (id, type, power) VALUES (10, 'Sedan', 203);
+INSERT INTO car (id, type, power) VALUES (11, 'Sports Car', 379);
+INSERT INTO car (id, type, power) VALUES (12, 'Sedan', 325);
+INSERT INTO car (id, type, power) VALUES (13, 'Sedan', 188);
+INSERT INTO car (id, type, power) VALUES (14, 'Sedan', 248);
+INSERT INTO car (id, type, power) VALUES (15, 'Hatchback', 147);
+INSERT INTO car (id, type, power) VALUES (16, 'Sedan', 174);
+INSERT INTO car (id, type, power) VALUES (17, 'SUV', 335);
+INSERT INTO car (id, type, power) VALUES (18, 'Sedan', 255);
+INSERT INTO car (id, type, power) VALUES (19, 'Sedan', 255);
+INSERT INTO car (id, type, power) VALUES (20, 'Sedan', 362);
