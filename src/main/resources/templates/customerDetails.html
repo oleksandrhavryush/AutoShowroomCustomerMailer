@@ -11,38 +11,46 @@
             border: 1px solid #ddd;
             border-radius: 5px;
             background-color: #fff;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
         .form-container h1 {
             text-align: center;
             color: #333;
         }
+
         .form-container table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
         }
+
         .form-container table, th, td {
             border: 1px solid #ddd;
             padding: 8px;
             text-align: left;
         }
+
         .form-container th {
             background-color: #50a8a0;
             color: white;
         }
+
         .form-container .form-buttons {
             display: flex;
             justify-content: space-between;
             margin-bottom: 20px;
         }
+
         .form-container .form-buttons form {
             flex: 1;
             margin-right: 20px;
         }
+
         .form-container .form-buttons form:last-child {
             margin-right: 0;
         }
+
         .form-container .form-buttons form input[type="submit"] {
             width: 100%;
             padding: 10px;
@@ -52,14 +60,34 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
+
         .form-container .form-buttons form input[type="submit"]:hover {
             background-color: #408080;
         }
+
         .form-container a {
             display: block;
             text-align: center;
             margin-top: 20px;
             color: #333;
+        }
+
+        .back-button {
+            width: 150px;
+            padding: 10px;
+            background-color: #50a8a0;
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            margin: 10px auto;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #408080;
         }
     </style>
 </head>
@@ -89,13 +117,16 @@
     <!-- Edit and Delete buttons -->
     <div class="form-buttons">
         <form method="GET" th:action="@{/customer/edit/{id}(id=${customer.id})}">
-            <input type="submit" value="Edit Customer" />
+            <input type="submit" value="Edit Customer"/>
         </form>
         <form method="POST" th:action="@{/customer/delete/{id}(id=${customer.id})}">
-            <input type="submit" value="Delete Customer" />
+            <input type="submit" value="Delete Customer"/>
+        </form>
+        <form method="GET" th:action="@{/customerList}">
+            <input type="submit" value="List customers"/>
         </form>
     </div>
-    <a href="/">Back to Home</a>
+    <a href="/" class="back-button">Back to Home</a>
 </div>
 </body>
 </html>
