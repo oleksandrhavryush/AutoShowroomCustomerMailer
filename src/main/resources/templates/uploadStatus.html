@@ -11,16 +11,36 @@
             border: 1px solid #ddd;
             border-radius: 5px;
             background-color: #fff;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
         .form-container h1 {
             text-align: center;
             color: #333;
         }
+
         .form-container p {
             color: #333;
             text-align: center;
             font-size: 18px;
+        }
+
+        .back-button {
+            width: 150px;
+            padding: 10px;
+            background-color: #50a8a0;
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            margin: 10px auto;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #408080;
         }
     </style>
 </head>
@@ -28,7 +48,7 @@
 <div class="form-container">
     <h1>Upload Status</h1>
     <p th:text="${message}"></p>
-    <a href="/">Back to Home</a>
+    <a href="/" class="back-button">Back to Home</a>
 </div>
 </body>
 </html>

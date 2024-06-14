@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Locale;
@@ -163,6 +164,17 @@ public class CustomerController {
             LOGGER.debug("Updating customer details for ID {}: {}", id, payload);
             Customer customer = customerService.findById(id)
                     .orElseThrow(() -> new NoSuchElementException("errors.customer.not_found"));
+            Address address = customer.getAddress();
+            address.setStreet(payload.street());
+            address.setHouseNumber(payload.houseNumber());
+            address.setCity(payload.city());
+            address.setPostalCode(payload.postalCode());
+            address.setCountry(payload.country());
+
+            customer.setFirstName(payload.firstName());
+            customer.setLastName(payload.lastName());
+            customer.setAddress(address);
+            customerService.update(customer);
             LOGGER.info("Customer with ID {} updated successfully.", id);
             return "redirect:/customerDetails/" + id;
         }
@@ -175,9 +187,11 @@ public class CustomerController {
      * @return the redirect view name
      */
     @PostMapping("/customer/delete/{id}")
-    public String deleteCustomer(@PathVariable("id") Long id) {
+    public String deleteCustomer(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         customerService.deleteById(id);
-        return "redirect:/";
+        LOGGER.info("Customer deleted from database successfully.");
+        redirectAttributes.addFlashAttribute("message", "Customer deleted from database successfully.");
+        return "redirect:/uploadStatus";
     }
 
     /**

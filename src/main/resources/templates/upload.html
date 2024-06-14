@@ -6,31 +6,38 @@
     <style>
         body {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
             background-color: #f0f0f0;
         }
+
         .form-container {
-            width: 50%;
+            width: 40%;
             padding: 20px;
             border: 1px solid #ddd;
             border-radius: 5px;
             background-color: #fff;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: calc(100vh / 3);
         }
+
         .form-container h1 {
             text-align: center;
             color: #333;
         }
+
         .form-container form {
             display: flex;
             flex-direction: column;
         }
+
         .form-container form input[type="file"] {
             margin-bottom: 20px;
         }
+
         .form-container form input[type="submit"] {
             padding: 10px;
             background-color: #50a8a0;
@@ -39,14 +46,34 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
+
         .form-container form input[type="submit"]:hover {
             background-color: #408080;
         }
+
         .form-container a {
             display: block;
             text-align: center;
             margin-top: 20px;
             color: #333;
+        }
+
+        .back-button {
+            width: 150px;
+            padding: 10px;
+            background-color: #50a8a0;
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            margin: 10px auto;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #408080;
         }
     </style>
 </head>
@@ -54,10 +81,10 @@
 <div class="form-container">
     <h1>Upload a File</h1>
     <form method="POST" enctype="multipart/form-data" data-th-action="@{/upload}">
-        <input type="file" name="file" id="file" th:required="required" />
-        <input type="submit" value="Upload" />
+        <input type="file" name="file" id="file" th:required="required"/>
+        <input type="submit" value="Upload"/>
     </form>
-    <a href="/">Back to Home</a>
+    <a href="/" class="back-button">Back to Home</a>
 </div>
 </body>
 </html>

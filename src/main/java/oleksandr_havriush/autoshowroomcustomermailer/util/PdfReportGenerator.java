@@ -38,6 +38,7 @@ public class PdfReportGenerator {
 
         try {
             PdfWriter.getInstance(document, outputStream);
+            document.setMargins(57.6f, 57.6f, 57.6f, 57.6f);
             document.open();
             addDealershipLogo(document);
             addDealershipAddress(document);
@@ -120,8 +121,11 @@ public class PdfReportGenerator {
             greeting.setSpacingBefore(100);
             document.add(greeting);
 
-            Paragraph body = new Paragraph("\nWe are pleased to inform you about the latest updates in our dealership. "
-                    + "Please find below the details of the new car models and the special offers we have for you:\n\n");
+            Paragraph body = new Paragraph("\nWe are delighted to announce that today is a momentous day at Car Dealership GmbH. " +
+                    "We are pleased to present our latest range of vehicles. Each model represents a pinnacle of automotive craftsmanship, " +
+                    "designed to elevate your driving experience.\n" +
+                    "We invite you to view our selection of new car models, along with the exclusive offers " +
+                    "we have created for discerning customers like you.\n");
             document.add(body);
         }
     }
@@ -134,8 +138,9 @@ public class PdfReportGenerator {
      * @throws DocumentException if there is an error adding the car table to the document
      */
     private static void addCarTable(Document document, List<Car> carList) throws DocumentException {
-        PdfPTable table = new PdfPTable(new float[]{1, 3, 3, 3, 2, 3});
+        PdfPTable table = new PdfPTable(new float[]{3, 3, 3, 2, 3});
         table.setWidthPercentage(100);
+        table.setSpacingBefore(30);
         addTableHeader(table);
         addTableRows(table, carList);
         document.add(table);
@@ -147,12 +152,16 @@ public class PdfReportGenerator {
      * @param table the PdfPTable to which the header row is added
      */
     private static void addTableHeader(PdfPTable table) {
-        Stream.of("Id", "Type", "Name", "Manufacturer", "Power", "Price")
+        Font headerFont = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD);
+        Stream.of("Type", "Name", "Manufacturer", "Power", "Price")
                 .forEach(columnTitle -> {
                     PdfPCell header = new PdfPCell();
                     header.setBackgroundColor(BaseColor.LIGHT_GRAY);
                     header.setBorderWidth(1);
-                    header.setPhrase(new Phrase(columnTitle));
+                    header.setFixedHeight(35);
+                    header.setHorizontalAlignment(Element.ALIGN_CENTER);
+                    header.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                    header.setPhrase(new Phrase(columnTitle, headerFont));
                     table.addCell(header);
                 });
     }
@@ -164,13 +173,39 @@ public class PdfReportGenerator {
      * @param carList the list of cars to include in the table rows
      */
     private static void addTableRows(PdfPTable table, List<Car> carList) {
+        Font textFont = new Font(Font.FontFamily.HELVETICA, 12);
         carList.forEach(car -> {
-            table.addCell(car.getId().toString());
-            table.addCell(car.getType());
-            table.addCell(car.getName());
-            table.addCell(car.getManufacturer());
-            table.addCell(String.valueOf(car.getPower()));
-            table.addCell(String.format("%.2f", car.getPrice()));
+            PdfPCell cell;
+
+            cell = new PdfPCell(new Phrase(car.getType(), textFont));
+            cell.setFixedHeight(25);
+            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            cell.setPadding(5);
+            table.addCell(cell);
+
+            cell = new PdfPCell(new Phrase(car.getName(), textFont));
+            cell.setFixedHeight(25);
+            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            cell.setPadding(5);
+            table.addCell(cell);
+
+            cell = new PdfPCell(new Phrase(car.getManufacturer(), textFont));
+            cell.setFixedHeight(25);
+            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            cell.setPadding(5);
+            table.addCell(cell);
+
+            cell = new PdfPCell(new Phrase(String.valueOf(car.getPower()), textFont));
+            cell.setFixedHeight(25);
+            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            cell.setPadding(5);
+            table.addCell(cell);
+
+            cell = new PdfPCell(new Phrase(String.format("%.2f", car.getPrice()), textFont));
+            cell.setFixedHeight(25);
+            cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+            cell.setPadding(5);
+            table.addCell(cell);
         });
     }
 
@@ -181,8 +216,8 @@ public class PdfReportGenerator {
      * @throws DocumentException if there is an error adding the signature to the document
      */
     private static void addSignature(Document document) throws DocumentException {
-        Paragraph signature = new Paragraph("\nSincerely,\n\n" + "Your Car Dealership Team");
-        signature.setSpacingBefore(50);
+        Paragraph signature = new Paragraph("\nBest regards,\n" + "Car Dealership GmbH Family");
+        signature.setSpacingBefore(30);
         document.add(signature);
     }
 }

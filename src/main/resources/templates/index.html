@@ -92,8 +92,8 @@
     </div>
 </header>
 <div class="welcome-message">
-    <h2>Ласкаво просимо до нашого автосалону!</h2>
-    <p>Ми раді вітати вас на нашому веб-сайті. Тут ви можете завантажити дані про автомобілі або створити нового клієнта.</p>
+    <h2 th:text="${welcomeMessage}">Default Welcome Message</h2>
+    <p th:text="${welcomeDescription}">Default Welcome Description</p>
 </div>
 </body>
 </html>

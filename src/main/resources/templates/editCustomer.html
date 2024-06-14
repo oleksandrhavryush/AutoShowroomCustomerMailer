@@ -11,24 +11,29 @@
             border: 1px solid #ddd;
             border-radius: 5px;
             background-color: #fff;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
         .form-container h1 {
             text-align: center;
             color: #333;
         }
+
         .form-container form {
             display: flex;
             flex-direction: column;
         }
+
         .form-container form div {
             margin-bottom: 10px;
         }
+
         .form-container form label {
             display: block;
             color: #333;
             margin-bottom: 5px;
         }
+
         .form-container form input[type="text"] {
             padding: 10px;
             border: 1px solid #ddd;
@@ -36,6 +41,7 @@
             width: 100%;
             box-sizing: border-box;
         }
+
         .form-container form input[type="submit"] {
             padding: 10px;
             background-color: #50a8a0;
@@ -44,14 +50,34 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
+
         .form-container form input[type="submit"]:hover {
             background-color: #408080;
         }
+
         .form-container a {
             display: block;
             text-align: center;
             margin-top: 20px;
             color: #333;
+        }
+
+        .back-button {
+            width: 150px;
+            padding: 10px;
+            background-color: #50a8a0;
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            margin: 10px auto;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #408080;
         }
     </style>
 </head>
@@ -67,37 +93,37 @@
         </div>
         <div>
             <label for="firstName">First Name:</label>
-            <input type="text" id="firstName" th:field="*{firstName}" />
+            <input type="text" id="firstName" th:field="*{firstName}"/>
         </div>
         <div>
             <label for="lastName">Last Name:</label>
-            <input type="text" id="lastName" th:field="*{lastName}" />
+            <input type="text" id="lastName" th:field="*{lastName}"/>
         </div>
         <div>
             <label for="street">Street:</label>
-            <input type="text" id="street" th:field="*{street}" />
+            <input type="text" id="street" th:field="*{street}"/>
         </div>
         <div>
             <label for="houseNumber">House Number:</label>
-            <input type="text" id="houseNumber" th:field="*{houseNumber}" />
+            <input type="text" id="houseNumber" th:field="*{houseNumber}"/>
         </div>
         <div>
             <label for="city">City:</label>
-            <input type="text" id="city" th:field="*{city}" />
+            <input type="text" id="city" th:field="*{city}"/>
         </div>
         <div>
             <label for="postalCode">Postal Code:</label>
-            <input type="text" id="postalCode" th:field="*{postalCode}" />
+            <input type="text" id="postalCode" th:field="*{postalCode}"/>
         </div>
         <div>
             <label for="country">Country:</label>
-            <input type="text" id="country" th:field="*{country}" />
+            <input type="text" id="country" th:field="*{country}"/>
         </div>
         <div>
-            <input type="submit" value="Update Customer" />
+            <input type="submit" value="Update Customer"/>
         </div>
     </form>
-    <a href="/">Back to Home</a>
+    <a href="/" class="back-button">Back to Home</a>
 </div>
 </body>
 </html>
